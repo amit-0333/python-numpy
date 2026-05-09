@@ -1,0 +1,249 @@
+
+<h2 class="sr-only">NumPy Cheat Sheet — all functions, attributes, and parameters from your notebooks</h2>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.cs { padding: 1rem 0 2rem; }
+.section { margin-bottom: 2rem; }
+.section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; padding-bottom: 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; cursor: pointer; transition: border-color 0.15s; }
+.card:hover { border-color: var(--color-border-secondary); }
+.card.active { border-color: #7F77DD; }
+.fn-name { font-family: var(--font-mono); font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.fn-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+.detail { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 16px 18px; margin-top: 1rem; display: none; }
+.detail.show { display: block; }
+.detail-title { font-family: var(--font-mono); font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
+.params-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 12px; }
+.params-table th { text-align: left; color: var(--color-text-secondary); font-weight: 500; padding: 4px 8px 4px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.params-table td { padding: 5px 8px 5px 0; vertical-align: top; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.params-table td:first-child { font-family: var(--font-mono); font-size: 12px; color: #534AB7; white-space: nowrap; padding-right: 12px; }
+.params-table td:last-child { color: var(--color-text-secondary); line-height: 1.5; }
+.example { background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 10px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--color-text-primary); line-height: 1.7; border: 0.5px solid var(--color-border-tertiary); white-space: pre-wrap; }
+.tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); margin-bottom: 8px; }
+.tag-axis { background: #EEEDFE; color: #3C3489; }
+.tag-returns { background: #E1F5EE; color: #085041; }
+.close-btn { float: right; font-size: 12px; color: var(--color-text-secondary); cursor: pointer; background: none; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 2px 8px; }
+.close-btn:hover { border-color: var(--color-border-secondary); }
+.search-wrap { margin-bottom: 1.25rem; }
+.search-wrap input { width: 100%; padding: 8px 12px; font-size: 14px; border-radius: var(--border-radius-md); }
+</style>
+
+<div class="cs">
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Search functions… e.g. reshape, sort, axis" aria-label="Search functions" />
+</div>
+<div id="active-detail"></div>
+<div id="sections"></div>
+</div>
+
+<script>
+const DATA = [
+  {
+    section: "Array creation",
+    fns: [
+      { name: "np.array()", desc: "Create array from list/nested list", params: [["object","Input data — list, tuple, or nested list"],["dtype","Data type: float, int, np.int32, np.float64, etc."],["ndmin","Minimum number of dimensions"]], ex: "np.array([1,2,3], dtype=float)\nnp.array([[1,2],[3,4]])" },
+      { name: "np.arange()", desc: "Evenly spaced values in a range", params: [["start","Start of interval (default 0)"],["stop","End of interval (exclusive)"],["step","Step size (default 1)"],["dtype","Output data type"]], ex: "np.arange(1, 11, 2)  # [1,3,5,7,9]\nnp.arange(16).reshape(4,4)" },
+      { name: "np.linspace()", desc: "Evenly spaced over specified interval", params: [["start","Start value"],["stop","End value"],["num","Number of samples (default 50)"],["dtype","Output dtype"],["endpoint","Include stop? Default True"]], ex: "np.linspace(-10, 10, 100)\nnp.linspace(-10, 10, 10, dtype=int)" },
+      { name: "np.zeros()", desc: "Array of zeros", params: [["shape","Tuple of ints e.g. (3,4) or (2,2,2)"],["dtype","Default float64"]], ex: "np.zeros((3, 4))" },
+      { name: "np.ones()", desc: "Array of ones", params: [["shape","Tuple of ints"],["dtype","Default float64"]], ex: "np.ones((3, 4))" },
+      { name: "np.identity()", desc: "Square identity matrix", params: [["n","Size of matrix"],["dtype","Default float64"]], ex: "np.identity(3)  # 3×3 eye" },
+      { name: "np.random.random()", desc: "Uniform random [0,1)", params: [["size","Shape tuple e.g. (3,4)"]], ex: "np.random.random((3, 4))" },
+      { name: "np.random.randint()", desc: "Random integers in range", params: [["low","Lowest integer"],["high","Highest (exclusive)"],["size","Shape or int"]], ex: "np.random.randint(1, 100, 24).reshape(6,4)" },
+    ]
+  },
+  {
+    section: "Array attributes",
+    fns: [
+      { name: ".ndim", desc: "Number of dimensions", params: [], ex: "a.ndim  # 1D→1, 2D→2, 3D→3" },
+      { name: ".shape", desc: "Tuple of array dimensions", params: [], ex: "a.shape  # e.g. (3, 4)" },
+      { name: ".size", desc: "Total number of elements", params: [], ex: "a.size  # rows × cols" },
+      { name: ".dtype", desc: "Data type of elements", params: [], ex: "a.dtype  # int32, float64…" },
+      { name: ".itemsize", desc: "Bytes per element", params: [], ex: "a.itemsize  # 8 for int64/float64" },
+      { name: ".astype()", desc: "Cast to a different dtype", params: [["dtype","Target type: np.int32, np.float64, etc."]], ex: "a.astype(np.int32)\na.astype(float)" },
+    ]
+  },
+  {
+    section: "Reshaping & rearranging",
+    fns: [
+      { name: ".reshape()", desc: "New shape without changing data", params: [["newshape","Tuple — product must equal size"],["order","'C' row-major, 'F' col-major (default 'C')"]], ex: "np.arange(24).reshape(6, 4)\nnp.arange(16).reshape(2,2,2,2)" },
+      { name: ".ravel()", desc: "Flatten to 1D (returns view if possible)", params: [["order","'C' row-major, 'F' col-major (default 'C')"]], ex: "a3.ravel()  # → 1D array" },
+      { name: ".T  /  np.transpose()", desc: "Transpose axes", params: [["axes","Tuple of axis order (optional)"]], ex: "a2.T\nnp.transpose(a2)" },
+      { name: "np.expand_dims()", desc: "Insert new axis", params: [["a","Input array"],["axis","Position of new axis: 0 or 1"]], ex: "np.expand_dims(a, axis=0)  # (15,)→(1,15)\nnp.expand_dims(a, axis=1)  # (15,)→(15,1)" },
+    ]
+  },
+  {
+    section: "Indexing & slicing",
+    fns: [
+      { name: "Basic indexing", desc: "Access elements by position", params: [["[i]","1D: single element"],["[i, j]","2D: row i, col j"],["[i, j, k]","3D: depth i, row j, col k"]], ex: "a1[3]       # 4th element\na2[1, 2]    # row 1, col 2\na3[1, 0, 1] # depth 1, row 0, col 1" },
+      { name: "Slicing [start:stop:step]", desc: "Sub-arrays along any axis", params: [["start","First index (inclusive)"],["stop","Last index (exclusive)"],["step","Every nth element"],["[::2, 1::2]","Multi-axis slice"]], ex: "a1[2:5:2]         # [2,4]\na2[0:2, 1::2]     # rows 0-1, odd cols\na2[1:, 1:3]       # rows 1+, cols 1-2\na3[::2, 0, ::2]   # 3D multi-axis" },
+      { name: "Fancy indexing", desc: "Select cols/rows by list of indices", params: [["[:, [0,2,3]]","Select specific columns"]], ex: "a[:, [0, 2, 3]]   # cols 0, 2, 3" },
+      { name: "Boolean indexing", desc: "Filter with condition mask", params: [["condition","Any boolean expression over array"],["& operator","Use & not 'and' for compound"],["~ operator","Negation"]], ex: "a[a > 50]\na[a % 2 == 0]\na[(a > 50) & (a % 2 == 0)]\na[~(a % 7 == 0)]" },
+    ]
+  },
+  {
+    section: "Sorting & searching",
+    fns: [
+      { name: "np.sort()", desc: "Returns sorted copy", params: [["a","Input array"],["axis","0=col, 1=row, None=flat (default -1, last axis)"],["kind","'quicksort', 'mergesort', 'heapsort'"]], ex: "np.sort(a)          # ascending\nnp.sort(a)[::-1]    # descending\nnp.sort(b, axis=0)  # sort each col\nnp.sort(b, axis=1)  # sort each row" },
+      { name: "np.argmax()", desc: "Index of maximum value", params: [["a","Input array"],["axis","0=col-wise, 1=row-wise, None=global"]], ex: "np.argmax(a)          # global max idx\nnp.argmax(b, axis=0)  # row idx of max per col\nnp.argmax(b, axis=1)  # col idx of max per row" },
+      { name: "np.argmin()", desc: "Index of minimum value", params: [["a","Input array"],["axis","0=col-wise, 1=row-wise, None=global"]], ex: "np.argmin(a)  # global min index" },
+      { name: "np.where()", desc: "Indices where condition true, or conditional replace", params: [["condition","Boolean array condition"],["x","Value where True"],["y","Value where False"]], ex: "np.where(a > 50)          # indices only\nnp.where(a > 50, 0, a)    # replace >50 with 0\nnp.where(a%2==0, 0, a)    # zero even nums" },
+    ]
+  },
+  {
+    section: "Math & statistics",
+    fns: [
+      { name: "np.sum() / .sum()", desc: "Sum of elements", params: [["axis","0=sum each col, 1=sum each row, None=total"]], ex: "np.sum(a1)\na1.sum(axis=0)   # col sums\na1.sum(axis=1)   # row sums" },
+      { name: "np.prod()", desc: "Product of elements", params: [["axis","0=col, 1=row"]], ex: "np.prod(a1, axis=0)  # col products" },
+      { name: "np.max() / np.min()", desc: "Max/min value", params: [["axis","0=col, 1=row, None=global"]], ex: "np.max(a1)\nnp.max(b, axis=0)" },
+      { name: "np.mean()", desc: "Arithmetic mean", params: [["axis","0=col, 1=row, None=global"]], ex: "np.mean(a1)\nnp.mean(b, axis=1)" },
+      { name: "np.median()", desc: "Median value", params: [["axis","0=col, 1=row, None=global"]], ex: "np.median(a)" },
+      { name: "np.std() / np.var()", desc: "Standard deviation / variance", params: [["axis","0=col, 1=row, None=global"],["ddof","Delta degrees of freedom (default 0)"]], ex: "np.std(a1)\nnp.var(a1, axis=1)  # row variance" },
+      { name: "np.cumsum()", desc: "Cumulative sum", params: [["axis","0=col, 1=row, None=flattened"]], ex: "np.cumsum(a)            # running total\nnp.cumsum(b, axis=1)    # row-wise running sum" },
+      { name: "np.cumprod()", desc: "Cumulative product", params: [["axis","0=col, 1=row, None=flattened"]], ex: "np.cumprod(a)" },
+      { name: "np.percentile()", desc: "Nth percentile", params: [["a","Input array"],["q","Percentile 0-100"],["axis","0=col, 1=row"]], ex: "np.percentile(a, 50)  # same as median\nnp.percentile(a, 75)  # 75th percentile" },
+      { name: "np.corrcoef()", desc: "Pearson correlation matrix", params: [["x","First array"],["y","Second array"]], ex: "np.corrcoef(salary, experience)" },
+      { name: "np.dot()", desc: "Matrix/vector dot product", params: [["a","Left array (m×k)"],["b","Right array (k×n)"]], ex: "np.dot(a2, a3)  # shapes: (3,4)×(4,3)→(3,3)" },
+      { name: "np.histogram()", desc: "Frequency distribution", params: [["a","Input array"],["bins","Int or list of bin edges"]], ex: "np.histogram(a, bins=[0,50,100])\n# returns (counts, edges)" },
+    ]
+  },
+  {
+    section: "Mathematical functions",
+    fns: [
+      { name: "np.sin() / np.cos() / np.tan()", desc: "Trig functions (radians)", params: [["x","Input array"]], ex: "np.sin(a)\nnp.cos(a)\nnp.tan(a)" },
+      { name: "np.exp()", desc: "Exponential e^x", params: [["x","Input array"]], ex: "np.exp(a1)   # e raised to each element" },
+      { name: "np.log()", desc: "Natural log ln(x)", params: [["x","Input array — must be >0"]], ex: "np.log(a1)\n# Warning: nan for x<=0" },
+      { name: "np.sqrt()", desc: "Square root", params: [["x","Input array"]], ex: "np.sqrt(a1)" },
+      { name: "np.round()", desc: "Round to n decimals", params: [["a","Input array"],["decimals","Number of decimal places (default 0)"]], ex: "np.round(a, 2)\nnp.round(a * 100)" },
+      { name: "np.floor()", desc: "Round down to nearest int", params: [["x","Input array"]], ex: "np.floor(np.random.random((2,3))*100)" },
+      { name: "np.ceil()", desc: "Round up to nearest int", params: [["x","Input array"]], ex: "np.ceil(np.random.random((2,3))*100)" },
+      { name: "np.clip()", desc: "Limit values to a range", params: [["a","Input array"],["a_min","Minimum value (values below → a_min)"],["a_max","Maximum value (values above → a_max)"]], ex: "np.clip(a, a_min=25, a_max=75)\n# values <25 become 25, >75 become 75" },
+    ]
+  },
+  {
+    section: "Array manipulation",
+    fns: [
+      { name: "np.append()", desc: "Append values to array (returns new array)", params: [["arr","Input array"],["values","Values to append"],["axis","0=row-append, 1=col-append, None=flatten+append"]], ex: "np.append(a, 200)\nnp.append(b, np.random.random((b.shape[0],1)), axis=1)" },
+      { name: "np.concatenate()", desc: "Join arrays along existing axis", params: [["seq","Tuple of arrays"],["axis","0=stack rows, 1=stack cols"]], ex: "np.concatenate((c, d), axis=0)  # vstack\nnp.concatenate((c, d), axis=1)  # hstack" },
+      { name: "np.hstack()", desc: "Stack horizontally (column-wise)", params: [["tup","Tuple of arrays with same row count"]], ex: "np.hstack((a4, a5))" },
+      { name: "np.vstack()", desc: "Stack vertically (row-wise)", params: [["tup","Tuple of arrays with same col count"]], ex: "np.vstack((a4, a5))" },
+      { name: "np.hsplit()", desc: "Split array horizontally", params: [["ary","Input array"],["indices_or_sections","Int: n equal parts, or list of col indices"]], ex: "np.hsplit(a4, 2)  # 2 equal halves" },
+      { name: "np.vsplit()", desc: "Split array vertically", params: [["ary","Input array"],["indices_or_sections","Int: n equal parts, or list of row indices"]], ex: "np.vsplit(a5, 3)  # 3 equal parts" },
+      { name: "np.delete()", desc: "Delete elements by index", params: [["arr","Input array"],["obj","Index or list of indices to delete"],["axis","0=delete rows, 1=delete cols, None=flat"]], ex: "np.delete(a, [0, 2, 4])  # remove idx 0,2,4" },
+      { name: "np.put()", desc: "Replace elements at given indices (in-place)", params: [["a","Input array (modified in-place)"],["ind","Target flat indices"],["v","Values to insert"]], ex: "np.put(a, [0, 1], [110, 530])\n# a[0]=110, a[1]=530" },
+      { name: "np.flip()", desc: "Reverse array along axis", params: [["m","Input array"],["axis","0=flip rows, 1=flip cols, None=full reverse"]], ex: "np.flip(a)           # full reverse\nnp.flip(b, axis=1)   # mirror each row" },
+      { name: "np.unique()", desc: "Find unique values", params: [["ar","Input array"],["return_index","Return indices in original"],["return_counts","Return count of each unique val"]], ex: "np.unique(e)  # sorted unique values" },
+    ]
+  },
+  {
+    section: "Broadcasting",
+    fns: [
+      { name: "Broadcasting rules", desc: "Auto-expand shapes for arithmetic", params: [["Rule 1","Prepend 1s to shorter shape until ndim matches"],["Rule 2","Dims of size 1 stretch to match other"],["Rule 3","Non-1 dims must match exactly or error"]], ex: "(4,3) + (3,)  → (4,3)   ✓  shape (3,) → (1,3) → (4,3)\n(2,3) + (2,1) → (2,3)   ✓  col broadcasts\n(3,4) + (4,3) → ERROR   ✗  trailing dims mismatch\n(4,4) + (2,2) → ERROR   ✗  not broadcastable" },
+      { name: "np.nan  /  np.isnan()", desc: "Missing value sentinel", params: [["np.nan","Float NaN — use in float arrays only"],["np.isnan(a)","Returns bool mask of NaN positions"]], ex: "a = np.array([1,2,np.nan,4])\na[~np.isnan(a)]  # drop NaN values" },
+    ]
+  },
+  {
+    section: "Iteration",
+    fns: [
+      { name: "for i in array", desc: "Iterate over first axis", params: [], ex: "for i in a1: print(i)   # elements\nfor i in a2: print(i)   # rows\nfor i in a3: print(i)   # 2D slices" },
+      { name: "np.nditer()", desc: "Iterate over every element", params: [["op","Array to iterate"],["order","'C' row-major, 'F' col-major"]], ex: "for i in np.nditer(a3):\n    print(i)  # every scalar element" },
+    ]
+  },
+  {
+    section: "Set operations",
+    fns: [
+      { name: "np.union1d()", desc: "Union — all unique elements from both", params: [["ar1","First array"],["ar2","Second array"]], ex: "np.union1d(m, n)   # [1,2,3,4,5,6,7]" },
+      { name: "np.intersect1d()", desc: "Intersection — elements in both", params: [["ar1","First array"],["ar2","Second array"]], ex: "np.intersect1d(m, n)  # [3,4,5]" },
+      { name: "np.setdiff1d()", desc: "Difference — in ar1 but not ar2", params: [["ar1","First array"],["ar2","Second array"]], ex: "np.setdiff1d(n, m)  # [6,7]" },
+      { name: "np.setxor1d()", desc: "Symmetric diff — in one but not both", params: [["ar1","First array"],["ar2","Second array"]], ex: "np.setxor1d(m, n)  # [1,2,6,7]" },
+      { name: "np.isin()", desc: "Element-wise membership test", params: [["element","Array to test"],["test_elements","Values to look for"]], ex: "a[np.isin(a, items)]  # elements in items" },
+      { name: "np.in1d()", desc: "1D membership test (legacy isin)", params: [["ar","Array to test"],["ar2","Values to look for"]], ex: "m[np.in1d(m, 1)]  # elements == 1" },
+    ]
+  },
+  {
+    section: "Plotting helpers",
+    fns: [
+      { name: "np.linspace() for plots", desc: "Generate x-axis points", params: [["start","Plot range start"],["stop","Plot range end"],["num","Number of points (more = smoother)"]], ex: "x = np.linspace(-10, 10, 100)\ny = np.sin(x)\nplt.plot(x, y)" },
+      { name: "Sigmoid function", desc: "Common ML activation", params: [], ex: "def sigmoid(x):\n    return 1 / (1 + np.exp(-x))\nx = np.linspace(-10, 10, 100)" },
+      { name: "MSE function", desc: "Mean squared error", params: [], ex: "def mse(actual, predicted):\n    return np.mean((actual - predicted)**2)" },
+    ]
+  },
+];
+
+let activeSection = null;
+let activeFn = null;
+
+function render(query = '') {
+  const q = query.toLowerCase();
+  const sectionsEl = document.getElementById('sections');
+  sectionsEl.innerHTML = '';
+  DATA.forEach(sec => {
+    const fns = q ? sec.fns.filter(f =>
+      f.name.toLowerCase().includes(q) ||
+      f.desc.toLowerCase().includes(q) ||
+      f.params.some(p => p[0].toLowerCase().includes(q) || p[1].toLowerCase().includes(q))
+    ) : sec.fns;
+    if (!fns.length) return;
+    const sDiv = document.createElement('div');
+    sDiv.className = 'section';
+    sDiv.innerHTML = `<div class="section-title">${sec.section}</div>`;
+    const cards = document.createElement('div');
+    cards.className = 'cards';
+    fns.forEach(fn => {
+      const c = document.createElement('div');
+      c.className = 'card' + (activeFn === fn.name ? ' active' : '');
+      c.innerHTML = `<div class="fn-name">${fn.name}</div><div class="fn-desc">${fn.desc}</div>`;
+      c.addEventListener('click', () => toggleDetail(fn));
+      cards.appendChild(c);
+    });
+    sDiv.appendChild(cards);
+    sectionsEl.appendChild(sDiv);
+  });
+}
+
+function toggleDetail(fn) {
+  const det = document.getElementById('active-detail');
+  if (activeFn === fn.name) {
+    activeFn = null;
+    det.innerHTML = '';
+    det.classList.remove('show');
+    render(document.getElementById('search').value);
+    return;
+  }
+  activeFn = fn.name;
+  let paramsHtml = '';
+  if (fn.params.length) {
+    paramsHtml = `<table class="params-table"><tr><th>Parameter</th><th>Description</th></tr>`;
+    fn.params.forEach(p => {
+      paramsHtml += `<tr><td>${p[0]}</td><td>${p[1]}</td></tr>`;
+    });
+    paramsHtml += `</table>`;
+  }
+  det.innerHTML = `
+    <div class="detail show">
+      <button class="close-btn" onclick="closeDetail()">close</button>
+      <div class="detail-title">${fn.name}</div>
+      <span class="tag tag-axis">from your notebooks</span>
+      ${paramsHtml}
+      <div class="example">${fn.ex}</div>
+    </div>`;
+  det.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  render(document.getElementById('search').value);
+}
+
+function closeDetail() {
+  activeFn = null;
+  document.getElementById('active-detail').innerHTML = '';
+  render(document.getElementById('search').value);
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  activeFn = null;
+  document.getElementById('active-detail').innerHTML = '';
+  render(e.target.value);
+});
+
+render();
+</script>
