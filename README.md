@@ -18,17 +18,27 @@ Every concept I study gets uploaded here with notes, examples, and practice prob
 
 ## 📚 Topics Covered
 
+### Part 1 — 🟢 NumPy Fundamentals
 | # | Topic | Description |
 |---|-------|-------------|
 | 01 | 🧱 Array Creation | Creating arrays — zeros, ones, arange, linspace, random |
 | 02 | 🔍 Indexing & Slicing | Accessing elements, rows, columns, fancy indexing |
 | 03 | 🔄 Reshaping & Stacking | reshape, resize, hstack, vstack, concatenate |
-| 04 | 📡 Broadcasting | Operating on arrays of different shapes |
-| 05 | ⚡ Vectorization | Replacing loops with fast NumPy operations |
-| 06 | ➗ Mathematical Operations | Arithmetic, aggregations, linear algebra |
-| 07 | 🎲 Random Module | Random arrays, seeds, distributions |
+| 04 | ➗ Mathematical Operations | Arithmetic, aggregations, linear algebra |
+| 05 | 🎲 Random Module | Random arrays, seeds, distributions |
+
+### Part 2 — 🔵 NumPy Advanced
+| # | Topic | Description |
+|---|-------|-------------|
+| 06 | 📡 Broadcasting | Operating on arrays of different shapes |
+| 07 | ⚡ Vectorization | Replacing loops with fast NumPy operations |
 | 08 | 🧮 Universal Functions (ufuncs) | np.sqrt, np.exp, np.log and more |
 | 09 | 🌍 Real-World Problem Solving | Applying NumPy to practical scenarios |
+
+### Part 3 — 🟣 NumPy Tricks
+| # | Topic | Description |
+|---|-------|-------------|
+| 10 | 🪄 NumPy Tricks | Shortcuts, tips & lesser-known NumPy features |
 
 ---
 
@@ -37,15 +47,22 @@ Every concept I study gets uploaded here with notes, examples, and practice prob
 ```bash
 python-numpy/
 │
-├── 📓 array_creation.ipynb
-├── 📓 indexing_slicing.ipynb
-├── 📓 reshaping_stacking.ipynb
-├── 📓 broadcasting.ipynb
-├── 📓 vectorization.ipynb
-├── 📓 math_operations.ipynb
-├── 📓 random_module.ipynb
-├── 📓 ufuncs.ipynb
-├── 📓 real_world_problems.ipynb
+├── 📂 Part1-Fundamentals/
+│   ├── 📓 array_creation.ipynb
+│   ├── 📓 indexing_slicing.ipynb
+│   ├── 📓 reshaping_stacking.ipynb
+│   ├── 📓 math_operations.ipynb
+│   └── 📓 random_module.ipynb
+│
+├── 📂 Part2-Advanced/
+│   ├── 📓 broadcasting.ipynb
+│   ├── 📓 vectorization.ipynb
+│   ├── 📓 ufuncs.ipynb
+│   └── 📓 real_world_problems.ipynb
+│
+├── 📂 Part3-Tricks/
+│   └── 📓 numpy_tricks.ipynb
+│
 └── 📄 README.md
 ```
 
