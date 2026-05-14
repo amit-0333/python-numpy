@@ -1,70 +1,108 @@
-# python-numpy
+# 🔢 NumPy Complete Guide
 
-# 📊 NumPy Practice & Tricks
+> A complete hands-on NumPy repository covering basic to advanced concepts, tricks, and real-world problem solving using Python.
 
-This repository contains my learning journey with **NumPy**, including basic to advanced concepts, useful tricks, and practice tasks.
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
 
 ---
 
 ## 📌 About
 
-This repo is a collection of:
-
-* 🔹 Basic NumPy operations
-* 🔹 Advanced NumPy tricks
-* 🔹 Practice problems & solutions
-* 🔹 Hands-on tasks from classes
-
-I am using this repository to strengthen my understanding of numerical computing in Python.
+This repo is my **live learning journal** for NumPy — the backbone of all Data Science and ML in Python.  
+Every concept I study gets uploaded here with notes, examples, and practice problems.
 
 ---
 
-## 🧠 Topics Covered
+## 📚 Topics Covered
 
-* Array creation 
-* Indexing & slicing
-* Broadcasting
-* Vectorization
-* Mathematical operations
-* Random module
-* Reshaping & stacking
-* Real-world problem solving
-
----
-
----
-
-## 🎓 Learning Source
-
-* CampusX DSMP 
-* Personal practice & notes
+| # | Topic | Description |
+|---|-------|-------------|
+| 01 | 🧱 Array Creation | Creating arrays — zeros, ones, arange, linspace, random |
+| 02 | 🔍 Indexing & Slicing | Accessing elements, rows, columns, fancy indexing |
+| 03 | 🔄 Reshaping & Stacking | reshape, resize, hstack, vstack, concatenate |
+| 04 | 📡 Broadcasting | Operating on arrays of different shapes |
+| 05 | ⚡ Vectorization | Replacing loops with fast NumPy operations |
+| 06 | ➗ Mathematical Operations | Arithmetic, aggregations, linear algebra |
+| 07 | 🎲 Random Module | Random arrays, seeds, distributions |
+| 08 | 🧮 Universal Functions (ufuncs) | np.sqrt, np.exp, np.log and more |
+| 09 | 🌍 Real-World Problem Solving | Applying NumPy to practical scenarios |
 
 ---
 
-## 🚀 Goals
-
-* Build strong foundation in NumPy
-* Improve problem-solving using arrays
-* Prepare for ML & Data Science
-
----
-
-## 🛠️ Requirements
+## 📁 Repository Structure
 
 ```bash
-pip install numpy
+python-numpy/
+│
+├── 📓 array_creation.ipynb
+├── 📓 indexing_slicing.ipynb
+├── 📓 reshaping_stacking.ipynb
+├── 📓 broadcasting.ipynb
+├── 📓 vectorization.ipynb
+├── 📓 math_operations.ipynb
+├── 📓 random_module.ipynb
+├── 📓 ufuncs.ipynb
+├── 📓 real_world_problems.ipynb
+└── 📄 README.md
 ```
+
+---
+
+## 🛠️ Technologies Used
+
+- 🐍 **Python** — Core programming language
+- 🔢 **NumPy** — Numerical computing library
+- 📓 **Jupyter Notebook** — Interactive development environment
+
+---
+
+## 🚀 How to Run
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/amit-0333/python-numpy.git
+
+# 2. Navigate to the folder
+cd python-numpy
+
+# 3. Install dependencies
+pip install numpy jupyter
+
+# 4. Launch Jupyter Notebook
+jupyter notebook
+```
+
+---
+
+## 🙏 Credits & Acknowledgement
+
+> This repository is built while learning from **[Campus X — DSMP](https://www.youtube.com/@campusx-official)** — an amazing free Data Science education channel.  
+> Notebooks are based on class materials from Campus X. All credit for the curriculum and teaching goes to them.  
+> I've added my own notes, practice, and experiments on top of the class content.
+
+---
+
+## 🎯 Goals
+
+- [x] Build strong foundation in NumPy
+- [ ] Improve problem-solving using arrays
+- [ ] Apply NumPy in real ML & Data Science projects
+- [ ] Move on to Pandas → EDA → ML
 
 ---
 
 ## 👨‍💻 Author
 
-**Amit Kumar**
+**Amit Kumar**  
+[![GitHub](https://img.shields.io/badge/GitHub-amit--0333-181717?style=flat&logo=github)](https://github.com/amit-0333)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Amit%20Kumar-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/amit-kumar-a62a3640a/)
+[![Kaggle](https://img.shields.io/badge/Kaggle-amitkumar038975-20BEFF?style=flat&logo=kaggle)](https://www.kaggle.com/amitkumar038975)
 
 ---
 
-## ⭐ Notes
+> 📝 *This repository is continuously updated as I learn new concepts and solve more problems.*
 
-This repository is continuously updated as I learn new concepts and solve more problems.
-
----
+⭐ **Star this repo if it helped you learn NumPy!**
